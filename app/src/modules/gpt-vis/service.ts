@@ -4,7 +4,6 @@
  */
 import { render } from "@antv/gpt-vis-ssr";
 import { nanoid } from "nanoid";
-import { existsSync } from "node:fs";
 
 import {
   ImageCache,
@@ -15,6 +14,9 @@ import { ErrorResponse } from "../../errors";
 import { SUPPORTED_CHART_TYPES, UNSUPPORTED_SSR_TYPES } from "./constants";
 import type { ChartBody, DistributionData } from "./model";
 import { logger } from "../../plugins/logger.plugin";
+import { appConfig } from "../../config/app";
+
+const BASE_URL = appConfig.baseUrl
 
 /**
  * Validates distribution charts have sufficient data points
@@ -110,7 +112,7 @@ export abstract class ChartService {
       logger.debug("Cache hit", { imageId: cachedImage.id, chartType: type });
       return {
         success: true,
-        resultObj: `/api/v1/generate-chart/images/${cachedImage.id}`,
+        resultObj: `${BASE_URL}/api/v1/generate-chart/images/${cachedImage.id}`,
       };
     }
 
@@ -150,7 +152,7 @@ export abstract class ChartService {
 
     return {
       success: true,
-      resultObj: `/api/v1/generate-chart/images/${imageId}`,
+      resultObj: `${BASE_URL}/api/v1/generate-chart/images/${imageId}`,
     };
   }
 
