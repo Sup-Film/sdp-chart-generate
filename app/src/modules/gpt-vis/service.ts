@@ -87,6 +87,7 @@ function isValidImageId(id: string): boolean {
 export interface GenerateChartResult {
   success: boolean;
   resultObj: string;
+  errorMessage: string;
 }
 
 export interface GetImageResult {
@@ -113,6 +114,7 @@ export abstract class ChartService {
       return {
         success: true,
         resultObj: `${BASE_URL}/api/v1/generate-chart/images/${cachedImage.id}`,
+        errorMessage: "",
       };
     }
 
@@ -153,6 +155,7 @@ export abstract class ChartService {
     return {
       success: true,
       resultObj: `${BASE_URL}/api/v1/generate-chart/images/${imageId}`,
+      errorMessage: "",
     };
   }
 

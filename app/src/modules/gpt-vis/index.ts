@@ -6,7 +6,7 @@ import { Elysia } from "elysia";
 
 import { ChartBodySchema, GptVisModel, type ChartBody } from "./model";
 import { ChartService } from "./service";
-import { errorHandlerPlugin } from "../../plugins/errorHandler.plugin";
+import { mcpErrorHandlerPlugin } from "../../plugins/mcpErrorHandler.plugin";
 
 /**
  * GPT-Vis Module - Chart Generation Controller
@@ -20,13 +20,13 @@ export const gptVisModule = new Elysia({
   name: "GptVis.Module",
   prefix: "/generate-chart",
 })
-  // Use global error handler plugin
-  .use(errorHandlerPlugin)
+  // Use MCP-compatible error handler
+  .use(mcpErrorHandlerPlugin)
 
   // POST / - Generate chart image
   .post(
     "/",
-    async ({ body }): Promise<{ success: boolean; resultObj: string }> => {
+    async ({ body }): Promise<{ success: boolean; resultObj: string; errorMessage: string }> => {
       return ChartService.generateChart(body as ChartBody);
     },
     {
